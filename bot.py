@@ -10,17 +10,17 @@ def handler(event, context):
     text = data['message']['text']
 
     resp = requests.post(
-        url='https://llm.api.cloud.yandex.net/foundationModels/v1/completion',
+        url='https://llm.api.cloud.yandex.net/foundationModels/v1/completion', #you can have the different one
         headers={
-            "Authorization": "API-KEY AQVNwv6591fyFORy_i5Mf8bTqzhZbllPya7LU8NZ",
-            "x-folder-id": "b1ge9cvph0v9mik7cpqv"
+            "Authorization": "API-KEY {YAGPT_API_KEY}",
+            "x-folder-id": "{YAGPT_FOLDER_ID}"
         },
         json={
-            "modelUri": "gpt://b1ge9cvph0v9mik7cpqv/yandexgpt-lite",
+            "modelUri": "gpt://{YAGPT_FOLDER_ID}/yandexgpt-{MODEL_TYPE}",
             "completionOptions": {
                 "stream": False,
-                "temperature": 0.6,
-                "maxTokens": "2000"
+                "temperature": {TEMPERATURE},
+                "maxTokens": "{MAX_TOKENS}"
             },
             "messages": [
                 {
@@ -34,7 +34,7 @@ def handler(event, context):
     answer = resp.json()['result']['alternatives'][0]['message']['text']
 
     requests.post(
-        'https://api.telegram.org/bot7039406207:AAEjffNt2w2GA8Fm6jsjE4iPBJRisrZpE-o/sendMessage',
+        'https://api.telegram.org/bot{BOT_TOKEN/sendMessage',
         json={
             'chat_id': chat_id,
             'text': answer
